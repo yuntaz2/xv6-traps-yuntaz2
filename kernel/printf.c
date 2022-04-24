@@ -158,7 +158,7 @@ void backtrace()
   while ((top > fp) & (fp > bottom))
   {
     uint64 ret_addr = *(uint64 *)(fp - 8); // return addr
-    printf("\nreturn address: %p\n", ret_addr);
+    printf("%p\n", ret_addr);
     uint64 saved_fp = *(uint64 *)(fp - 16); // saved frame pointer
     fp = saved_fp;
   }
