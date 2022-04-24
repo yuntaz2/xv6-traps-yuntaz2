@@ -125,6 +125,7 @@ void panic(char *s)
   printf(s);
   printf("\n");
   panicked = 1; // freeze uart output from other CPUs
+  backtrace();
   for (;;)
     ;
 }
@@ -146,4 +147,19 @@ void print_info(void)
   printf("Return address without casting: %p\n", ret_static);
 
   printf("PID(%d), User Program Counter(%p)", myproc()->pid, myproc()->trapframe->epc);
+}
+
+void backtrace()
+{
+  printf("backtrace:\n");
+  uint64 fp = r_fp();              // frame pointer
+  uint64 top = PGROUNDUP(fp);      // top addr of the stack page
+  uint64 bottom = PGROUNDDOWN(fp); // bottom addr of the stack page
+  while ((top > fp) & (fp > bottom))
+  {
+    uint64 ret_addr = *(uint64 *)(fp - 8); // return addr
+    printf("\nreturn address: %p\n", ret_addr);
+    uint64 saved_fp = *(uint64 *)(fp - 16); // saved frame pointer
+    fp = saved_fp;
+  }
 }

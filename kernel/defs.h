@@ -81,6 +81,7 @@ void printf(char *, ...);
 void panic(char *) __attribute__((noreturn));
 void printfinit(void);
 void print_info(void);
+void backtrace(void); // add the prototype for backtrace to kernel/defs.h
 
 // proc.c
 int cpuid(void);
