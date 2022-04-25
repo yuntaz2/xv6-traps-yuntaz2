@@ -150,7 +150,9 @@ found:
   memset(&p->context, 0, sizeof(p->context));
   p->context.ra = (uint64)forkret;
   p->context.sp = p->kstack + PGSIZE;
-
+  p->ticks = 0;        // alarm: initialize ticks
+  p->handler = 0;      // alarm: initialize the pointer to the handler function
+  p->handler_free = 1; // alarm: initialize the handler status to free(1)
   return p;
 }
 
